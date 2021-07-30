@@ -1,0 +1,22 @@
+{
+  "main": "lib/index.js",
+  "type": "module",
+  "licanse": "MIT",
+  "dependencies": {
+    "@vk-io/hear": "^1.1.0",
+    "battery-level": "^3.0.0",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.1",
+    "vk-io": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/battery-level": "^3.0.0",
+    "@types/node": "^16.4.7",
+    "@types/node-fetch": "^2.5.12"
+  },
+  "scripts": {
+    "start": "nodemon --experimental-specifier-resolution=node lib/index",
+    "build": "tsc -w",
+    "install": "npm upgrade"
+  }
+}

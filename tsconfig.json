@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "ESNext",
+    "lib": ["ES2019", "ESNext"],
+    "moduleResolution": "Node",
+    "outDir": "lib",
+    "esModuleInterop": true,
+    // "baseUrl": "src",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowUnreachableCode": false,
+    "noImplicitReturns": true
+  },
+  "include": ["src"],
+  "buildOptions": {}
+}
