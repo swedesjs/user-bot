@@ -1,5 +1,3 @@
-export * from "./delay"
-export * from "./vkParse"
-export * from "./unixTime"
-export * from "./unixStampTime"
+export * from "./vk"
+export * from "./time"
 export * from "./utils"

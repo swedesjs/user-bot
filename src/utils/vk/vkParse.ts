@@ -1,6 +1,6 @@
 import fetch, { Response } from "node-fetch"
 import { VK } from "vk-io"
-import { ParseVKStatus } from "../types"
+import { ParseVKStatus } from "../../types"
 
 export class ParseVK {
   /**
