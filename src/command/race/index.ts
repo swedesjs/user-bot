@@ -1,0 +1,1 @@
+export { InfoRace } from "./info"
