@@ -16,6 +16,6 @@ V8 External Memory: ${Utils.bytesToSize(memoryData.external)}
 OS Uptime: ${unixStampTime(os.uptime() * 1000)}
 Battery: ${(await battery()) * 100}%
 Запущен ${unixStampTime(process.uptime() * 1000)} назад
-Задержка: ${ctx.createdAt * 1000 - Date.now()}ms`)
+Задержка: ${Date.now() - ctx.createdAt * 1000}ms`)
   }
 }
