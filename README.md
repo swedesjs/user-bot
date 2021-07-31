@@ -1,1 +1,1 @@
-> By [swedesjs](t.me/swedesjs) and [ZooBotCreated](t.me/botCreated)
+> By [swedesjs](https://t.me/swedesjs) and [ZooBotCreated](https://t.me/botCreated)
