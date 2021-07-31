@@ -15,10 +15,8 @@
     "@types/node-fetch": "^2.5.12"
   },
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node lib/index.js",
     "start:dev": "nodemon --experimental-specifier-resolution=node lib/index.js",
-    "start:cjs": "nodemon lib/index",
     "build": "tsc -w",
-    "install": "npm upgrade"
+    "install": "npm i"
   }
 }

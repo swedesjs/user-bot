@@ -3,6 +3,7 @@ import { MessageContext, VK } from "vk-io"
 import { HearManager } from "@vk-io/hear"
 import * as command from "./command"
 import { delay } from "./utils"
+import { commandTypes } from "./types"
 dotenv.config()
 
 export const vk = new VK({
@@ -27,6 +28,9 @@ vk.updates.on("message", async (ctx, next) => {
 })
 vk.updates.on("message", hearManager.middleware)
 
-Object.keys(command).map(x => hearManager.hear(command[x].regExp, command[x].func))
+Object.keys(command).map(x => {
+  const { regExp, func } = command[x] as commandTypes
+  return hearManager.hear(regExp, func)
+})
 
 vk.updates.start()

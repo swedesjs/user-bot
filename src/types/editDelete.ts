@@ -1,3 +1,3 @@
 export type editDelete = {
-  editDelete: (message: string, ms?: number) => Promise<boolean>
+  readonly editDelete: (message: string, ms?: number) => Promise<boolean>
 }

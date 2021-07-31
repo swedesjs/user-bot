@@ -1,4 +1,4 @@
-export interface ParseVKStatus {
+export type ParseVKStatus = Readonly<{
   /**
    * Категория методов
    */
@@ -13,4 +13,4 @@ export interface ParseVKStatus {
   uptime: number
 
   status: string
-}
+}>
