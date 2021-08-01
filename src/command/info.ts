@@ -1,6 +1,5 @@
 import os from "os"
 import { commandTypes } from "../types"
-import { unixStampTime } from "../utils"
 
 export const info: commandTypes = {
   regExp: /^(?:инфа)$/i,
