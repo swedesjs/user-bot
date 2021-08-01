@@ -8,11 +8,12 @@
     "dotenv": "^10.0.0",
     "node-fetch": "^2.6.1",
     "races-api": "^1.1.1-fix-markdown",
+    "rus-anonym-utils": "^2.6.1",
     "vk-io": "^4.3.2"
   },
   "devDependencies": {
     "@types/battery-level": "^3.0.0",
-    "@types/node": "^16.4.7",
+    "@types/node": "^16.4.10",
     "@types/node-fetch": "^2.5.12"
   },
   "scripts": {

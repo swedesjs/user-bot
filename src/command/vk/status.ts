@@ -1,5 +1,5 @@
-import { commandTypes } from "../types"
-import { ParseVK, unixTime } from "../utils"
+import { commandTypes } from "../../types"
+import { ParseVK, unixTime } from "../../utils"
 
 export const status: commandTypes = {
   regExp: /^(?:status|статус)$/i,

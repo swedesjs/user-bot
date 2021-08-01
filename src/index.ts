@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-import { MessageContext, VK } from "vk-io"
+import { IMessageContextSendOptions, MessageContext, VK } from "vk-io"
 import { HearManager } from "@vk-io/hear"
 import * as command from "./command"
 import { delay } from "./utils"
@@ -14,7 +14,7 @@ const hearManager = new HearManager<MessageContext>()
 
 vk.updates.on("message", async (ctx, next) => {
   if (ctx.senderId !== 651129803) return
-  ctx.editDelete = async (message: string, ms: number = 60000) => {
+  ctx.editDelete = async (message: string, ms: number = 60000, params?: IMessageContextSendOptions) => {
     let message_ids: number
     try {
       message_ids = await ctx.editMessage({ message })

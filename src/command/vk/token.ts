@@ -1,5 +1,5 @@
-import { commandTypes } from "../types"
-import { ParseVK } from "../utils"
+import { commandTypes } from "../../types"
+import { ParseVK } from "../../utils"
 
 export const token: commandTypes = {
   regExp: /^(?:token)\s(.*)$/i,

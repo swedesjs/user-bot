@@ -1,3 +1,5 @@
+import { IMessageContextSendOptions } from "vk-io";
+
 export type editDelete = {
-  readonly editDelete: (message: string, ms?: number) => Promise<boolean>
+  readonly editDelete: (message: string, ms?: number, params?: IMessageContextSendOptions) => Promise<boolean>
 }
