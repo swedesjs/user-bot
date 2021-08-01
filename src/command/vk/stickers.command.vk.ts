@@ -13,15 +13,19 @@ export const Stickers: commandTypes = {
       resource: ctx.$match[1]
     })
 
+    const [info] = await vk.api.users.get({
+      user_id: userId.id,
+      name_case: "gen"
+    })
+
     const userStickers = await VKUtils.getUserStickerPacks(process.env.VKME_TOKEN, userId.id)
-    console.log(userStickers)
 
     ctx.editDelete(
-      `У @id${userId.id} ${userStickers.stats.packs.paid}/${userStickers.stats.packs.count} платных наборов стикеров (${Utils.separator(userStickers.totalPrice, ".")} ${Utils.declOfNum(
+      `У @id${userId.id} (${info.first_name} ${info.last_name}) ${userStickers.stats.packs.paid}/${userStickers.stats.packs.count} платных наборов стикеров (${Utils.separator(
         userStickers.totalPrice,
-        ["голос", "голоса", "голосов"]
-      )}/${Utils.separator(userStickers.totalPrice * 7, ".")}₽)\n\n${
-        userStickers.stats.packs.count > 30
+        "."
+      )} ${Utils.declOfNum(userStickers.totalPrice, ["голос", "голоса", "голосов"])}/${Utils.separator(userStickers.totalPrice * 7, ".")}₽)\n\n${
+        userStickers.stats.packs.paid > 30
           ? `Много`
           : userStickers.items
               .filter(x => !x.isFree)
