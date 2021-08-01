@@ -1,1 +1,1 @@
-export { InfoRace } from "./info"
+export { InfoRace } from "./info.race.command"

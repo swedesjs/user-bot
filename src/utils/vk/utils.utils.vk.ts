@@ -1,15 +1,15 @@
-import types from "rus-anonym-utils/dist/lib/VK/types"
 import { API } from "vk-io"
-import { Utils } from "../utils"
+import { Utils } from "../utils.utils"
+import { IUserSticker, IUserStickerPackExtend, IUserStickerPack } from "./types"
 
 class UtilsVK {
-  async getStickerPacksInfo(token: string, stickerPacks_ids: number[]): Promise<types.IStickerPackInfo[]> {
+  async getStickerPacksInfo(token: string, stickerPacks_ids: number[]) {
     const api = new API({
       token,
       apiVersion: "5.157"
     })
 
-    const output: types.IStickerPackInfo[] = []
+    const output: IUserSticker[] = []
 
     for (const chunk of Utils.splitTo(stickerPacks_ids, 350)) {
       const data = await api.call(`store.getStockItems`, {
@@ -26,13 +26,9 @@ class UtilsVK {
               has_animation: boolean
               id: number
               title: string
-              copyright: string
-              url: string
             }
             old_price: number
             price: number
-            author: string
-            description: string
           }) => {
             const price = x.old_price || x.price || 0
 
@@ -41,9 +37,11 @@ class UtilsVK {
             const isStyle = !!x.product.style_sticker_ids
             return {
               title: x.product.title,
+              price,
               isFree,
               isAnimation,
-              isStyle
+              isStyle,
+              id: x.product.id
             }
           }
         )
@@ -53,20 +51,7 @@ class UtilsVK {
     return output
   }
 
-  async getUserStickerPacks(
-    token: string,
-    user_id: number
-  ): Promise<{
-    items: types.IUserStickerPackExtend[]
-    totalPrice: number
-    stats: {
-      total: number
-      packs: {
-        count: number
-        paid: number
-      }
-    }
-  }> {
+  async getUserStickerPacks(token: string, user_id: number) {
     const api = new API({ token, apiVersion: "5.157" })
 
     const userStickerPacks = await api.call(`store.getProducts`, {
@@ -75,27 +60,22 @@ class UtilsVK {
       user_id
     })
 
-    const parsedUserStickerPacks = userStickerPacks.items.map((x: { id: number; base_id: number; active: number }) => {
+    const parsedUserStickerPacks: IUserStickerPack[] = userStickerPacks.items.map((x: { id: number; base_id: number; active: number }) => {
       return {
         id: x.id,
         isStyle: !!x.base_id,
         isActive: !!x.active
       }
-    }) as {
-      id: number
-      isStyle: boolean
-      isActive: boolean
-    }[]
-
+    })
     const extendsStickerPackInfo = await this.getStickerPacksInfo(
       token,
       parsedUserStickerPacks.map(x => x.id)
     )
 
-    const output: types.IUserStickerPackExtend[] = []
+    const output: IUserStickerPackExtend[] = []
 
     for (const stickerPack of extendsStickerPackInfo) {
-      const userStickerPackInfo = parsedUserStickerPacks.find(x => x.id === stickerPack.id) as types.IUserStickerPack
+      const userStickerPackInfo = parsedUserStickerPacks.find(x => x.id === stickerPack.id) as IUserStickerPack
       output.push(Object.assign(stickerPack, userStickerPackInfo))
     }
     const packsCount = output.filter(x => !x.isStyle).length

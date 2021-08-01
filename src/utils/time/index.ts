@@ -1,3 +1,3 @@
-export * from "./unixTime"
-export * from "./delay"
-export * from "./unixStampTime"
+export * from "./unixTime.utils.time"
+export * from "./delay.utils.time"
+export * from "./unixStampTime.utils.time"

@@ -1,3 +1,3 @@
-export * from "./vkParse"
-export * from "./command"
-export * from "./editDelete"
+export * from "./vkParse.types"
+export * from "./command.types"
+export * from "./editDelete.types"

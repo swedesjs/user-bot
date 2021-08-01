@@ -1,3 +1,3 @@
-export * from "./token"
-export * from "./status"
-export * from "./stickers"
+export * from "./token.command.race"
+export * from "./status.command.vk"
+export * from "./stickers.command.vk"

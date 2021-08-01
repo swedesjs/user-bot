@@ -14,7 +14,7 @@ Heap Total: ${Utils.bytesToSize(memoryData.heapTotal)}
 Heap Used: ${Utils.bytesToSize(memoryData.heapUsed)}
 V8 External Memory: ${Utils.bytesToSize(memoryData.external)}
 OS Uptime: ${unixStampTime(os.uptime() * 1000)}
-Battery: ${(await battery()) * 100}%
+Battery: ${Math.floor((await battery()) * 100)}%
 Запущен ${unixStampTime(process.uptime() * 1000)} назад
 Задержка: ${Date.now() - ctx.createdAt * 1000}ms`)
   }

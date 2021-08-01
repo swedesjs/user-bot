@@ -1,2 +1,2 @@
-export * from "./vkParse"
-export * from "./utils"
+export * from "./vkParse.utils.vk"
+export * from "./utils.utils.vk"
