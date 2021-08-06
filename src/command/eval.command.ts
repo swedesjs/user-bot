@@ -11,24 +11,9 @@ export const evalCommand: commandTypes = {
     } catch (message) {
       return ctx.editDelete(message)
     }
-    const type =
-      typeof result == "number"
-        ? `Число`
-        : typeof result == "string"
-        ? `Строка`
-        : Array.isArray(result)
-        ? `Массив`
-        : typeof result == "object"
-        ? `Объект`
-        : typeof result == "function"
-        ? `${util.types.isAsyncFunction(result) ? `Асинхронная функция` : `Функция`}`
-        : typeof result == "bigint"
-        ? `BigInt`
-        : typeof result == "symbol"
-        ? `Symbol`
-        : typeof result
+
     const code = typeof result == "object" ? JSON.stringify(result, null, "\t") : typeof result == "symbol" ? String(result) : result
 
-    ctx.editDelete(`🔚 Итог:\n⚄ ${code}\n✄Тип: ${type}\n\n⏄Код выполнен за ${+new Date() - ms} мс. `)
+    ctx.editDelete(`🔚 Итог:\n⚄ ${code}\n✄Тип: ${typeof result}\n\n⏄Код выполнен за ${+new Date() - ms} мс. `)
   }
 }

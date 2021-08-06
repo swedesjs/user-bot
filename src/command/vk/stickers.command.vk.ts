@@ -2,12 +2,13 @@ import { resolveResource } from "vk-io"
 import { vk } from "../.."
 import { commandTypes } from "../../types"
 import dotenv from "dotenv"
-import { Utils, VKUtils } from "../../utils"
+import { unixStampTime, Utils, VKUtils } from "../../utils"
 dotenv.config()
 
 export const Stickers: commandTypes = {
   regExp: /^(?:stickers)\s(.*)$/i,
   func: async ctx => {
+    const ms = +new Date()
     const userId = await resolveResource({
       api: vk.api,
       resource: ctx.$match[1]
@@ -25,13 +26,13 @@ export const Stickers: commandTypes = {
         userStickers.totalPrice,
         "."
       )} ${Utils.declOfNum(userStickers.totalPrice, ["голос", "голоса", "голосов"])}/${Utils.separator(userStickers.totalPrice * 7, ".")}₽)\n\n${
-        userStickers.stats.packs.paid > 30
+        userStickers.stats.packs.paid > 50
           ? `Много`
           : userStickers.items
               .filter(x => !x.isFree)
               .map(x => x.title)
               .join(", ")
-      }`,
+      }\n\nЗадержка: ${unixStampTime(+new Date() - ms)}`,
       60000,
       {
         disable_mentions: true,

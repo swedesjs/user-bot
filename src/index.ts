@@ -15,7 +15,6 @@ const hearManager = new HearManager<MessageContext>()
 vk.updates.on("message", async (ctx, next) => {
   await ctx.loadMessagePayload()
   if (ctx.senderId !== 651129803) return
-
   ctx.editDelete = async (message: string, ms: number = 60000, params?: IMessageContextSendOptions) => {
     let message_ids: number
     try {
