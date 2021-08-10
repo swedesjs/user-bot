@@ -3,7 +3,7 @@
  * @param stamp Время в формате UnixTime
  * @returns Дата
  */
-export const unixTime = (stamp?: number): string => {
+export const unixTime = (stamp?: number | string): string => {
   if (!stamp) return unixTime(+new Date())
   let date = new Date(stamp),
     year = date.getFullYear(),

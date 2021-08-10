@@ -1,8 +1,8 @@
-import { commandTypes } from "../types"
-import { unixStampTime, Utils } from "../utils"
 import battery from "battery-level"
 import os from "os"
 import ping from "ping"
+import { commandTypes } from "../types"
+import { unixStampTime, Utils } from "../utils"
 
 export const Main: commandTypes = {
   regExp: /^(?:main)$/i,
@@ -18,6 +18,6 @@ OS Uptime: ${unixStampTime(os.uptime() * 1000)}
 Battery: ${Math.floor((await battery()) * 100)}%
 Ping: ${dataPing.time}ms
 Запущен ${unixStampTime(process.uptime() * 1000)} назад
-Задержка: ${Date.now() - ctx.createdAt * 1000}ms`)
+`)
   }
 }

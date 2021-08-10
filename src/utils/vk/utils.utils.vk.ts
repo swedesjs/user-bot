@@ -1,4 +1,6 @@
+import fetch, { Response } from "node-fetch"
 import { API } from "vk-io"
+import { unixTime } from "../time"
 import { Utils } from "../utils.utils"
 import { IUserSticker, IUserStickerPackExtend, IUserStickerPack } from "./types"
 
@@ -90,6 +92,17 @@ class UtilsVK {
           paid: paidPacksCount
         }
       }
+    }
+  }
+
+  async getVkRegDate(id: number) {
+    try {
+      let date: string | Response = await fetch(`https://vk.com/foaf.php?id=${id}`)
+      date = await date.text()
+      date = date.split('<ya:created dc:date="')[1].split('"/>')[0]
+      return unixTime(date)
+    } catch (e) {
+      return e
     }
   }
 }

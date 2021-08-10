@@ -20,10 +20,10 @@ vk.updates.on("message", async (ctx, next) => {
     try {
       message_ids = await ctx.editMessage({ message, ...params })
     } catch (message) {
-      message_ids = await ctx.editMessage({ message, ...params })
+      message_ids = await ctx.editMessage({ message })
     }
     await delay(ms)
-    return ctx.deleteMessage({ message_ids })
+    return ctx.deleteMessage({ message_ids, delete_for_all: true })
   }
   await next()
 })
