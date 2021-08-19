@@ -1,5 +1,4 @@
 import os from "os"
-import { commandTypes } from "../types"
 import { Utils } from "../utils"
 
 export const Ram: commandTypes = {

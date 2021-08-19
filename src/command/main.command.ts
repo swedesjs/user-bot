@@ -1,7 +1,6 @@
 import battery from "battery-level"
 import os from "os"
 import ping from "ping"
-import { commandTypes } from "../types"
 import { unixStampTime, Utils } from "../utils"
 
 export const Main: commandTypes = {

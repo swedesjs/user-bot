@@ -1,5 +1,5 @@
 import os from "os"
-import { commandTypes } from "../types"
+
 export const ipCommand: commandTypes = {
   regExp: /^(?:ip)$/i,
   func: ctx => {

@@ -1,5 +1,4 @@
 import util from "util"
-import { commandTypes } from "../types"
 
 export const evalCommand: commandTypes = {
   regExp: /^(?:eval)\s(.*)$/i,
@@ -12,6 +11,7 @@ export const evalCommand: commandTypes = {
       return ctx.editDelete(message)
     }
 
+    if (util.types.isPromise(result)) result = await result
     const code = typeof result == "object" ? JSON.stringify(result, null, "\t") : typeof result == "symbol" ? String(result) : result
 
     ctx.editDelete(`🔚 Итог:\n⚄ ${code}\n✄Тип: ${typeof result}\n\n⏄Код выполнен за ${+new Date() - ms} мс. `)

@@ -1,3 +1,5 @@
+import { Utils } from "../utils.utils"
+
 /**
  * Преобразование UnixTime в понятное для глаз человека время
  * @param stamp Время UnixTime в миллисекундах
@@ -6,21 +8,25 @@
 export const unixStampTime = (stamp: number) => {
   stamp = stamp / 1000
 
-  let s = stamp % 60
-  stamp = (stamp - s) / 60
+  const second = stamp % 60
+  stamp = (stamp - second) / 60
 
-  let m = stamp % 60
-  stamp = (stamp - m) / 60
+  const minutes = stamp % 60
+  stamp = (stamp - minutes) / 60
 
-  let h = stamp % 24
-  let d = (stamp - h) / 24
+  const house = stamp % 24
+  stamp = (stamp - house) / 24
+
+  const day = stamp % 365
+  const year = (stamp - day) / 365
 
   let text = ``
 
-  if (d > 0) text += Math.floor(d) + " д. "
-  if (h > 0) text += Math.floor(h) + " ч. "
-  if (m > 0) text += Math.floor(m) + " мин. "
-  if (s > 0) text += Math.floor(s) + " с."
+  if (year > 0) text += Math.floor(year) + ` ${Utils.declOfNum(year, ["год", "года", "лет"])} `
+  if (day > 0) text += Math.floor(day) + ` ${Utils.declOfNum(day, ["день", "дня", "дней"])} `
+  if (house > 0) text += Math.floor(house) + ` ${Utils.declOfNum(house, ["час", "часа", "часов"])} `
+  if (minutes > 0) text += Math.floor(minutes) + ` ${Utils.declOfNum(minutes, ["минута", "минуты", "минут"])} `
+  if (second > 0) text += Math.floor(second) + ` ${Utils.declOfNum(second, ["секунда", "секунды", "секунд"])} `
 
   return text
 }

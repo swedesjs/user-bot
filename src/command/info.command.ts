@@ -1,6 +1,4 @@
 import os from "os"
-import { commandTypes } from "../types"
-
 export const info: commandTypes = {
   regExp: /^(?:инфа)$/i,
   func: async ctx =>

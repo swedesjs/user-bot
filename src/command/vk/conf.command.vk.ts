@@ -1,5 +1,4 @@
 import { vk } from "../.."
-import { commandTypes } from "../../types"
 
 export const Conf: commandTypes = {
   regExp: /^(?:конфа)$/i,

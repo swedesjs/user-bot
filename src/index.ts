@@ -1,9 +1,10 @@
-import dotenv from "dotenv"
 import { IMessageContextSendOptions, MessageContext, VK } from "vk-io"
 import { HearManager } from "@vk-io/hear"
+import dotenv from "dotenv"
+
 import * as command from "./command"
 import { delay } from "./utils"
-import { commandTypes } from "./types"
+
 dotenv.config()
 
 export const vk = new VK({

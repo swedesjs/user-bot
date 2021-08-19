@@ -1,4 +1,3 @@
-import { commandTypes } from "../../types"
 import { ParseVK } from "../../utils"
 
 export const token: commandTypes = {

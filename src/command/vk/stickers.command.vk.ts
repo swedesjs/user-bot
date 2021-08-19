@@ -1,8 +1,9 @@
 import { resolveResource } from "vk-io"
-import { vk } from "../.."
-import { commandTypes } from "../../types"
 import dotenv from "dotenv"
+
+import { vk } from "../.."
 import { unixStampTime, Utils, VKUtils } from "../../utils"
+
 dotenv.config()
 
 export const Stickers: commandTypes = {

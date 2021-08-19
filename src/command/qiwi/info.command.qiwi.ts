@@ -1,6 +1,6 @@
 import { Personal } from "qiwi-sdk"
 import dotenv from "dotenv"
-import { commandTypes } from "../../types"
+
 dotenv.config()
 
 export const qiwi = new Personal(process.env.QIWI_TOKEN)

@@ -1,4 +1,3 @@
-import { commandTypes } from "../../types"
 import { qiwi } from "./info.command.qiwi"
 
 export const paymentSend: commandTypes = {

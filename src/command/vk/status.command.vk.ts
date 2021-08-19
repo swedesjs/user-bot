@@ -1,4 +1,3 @@
-import { commandTypes } from "../../types"
 import { ParseVK, unixTime } from "../../utils"
 
 export const status: commandTypes = {

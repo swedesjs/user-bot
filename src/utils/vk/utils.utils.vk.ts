@@ -96,14 +96,10 @@ class UtilsVK {
   }
 
   async getVkRegDate(id: number) {
-    try {
-      let date: string | Response = await fetch(`https://vk.com/foaf.php?id=${id}`)
-      date = await date.text()
-      date = date.split('<ya:created dc:date="')[1].split('"/>')[0]
-      return unixTime(date)
-    } catch (e) {
-      return e
-    }
+    let date: string | Response = await fetch(`https://vk.com/foaf.php?id=${id}`)
+    date = await date.text()
+    date = date.split('<ya:created dc:date="')[1].split('"/>')[0]
+    return +new Date(date)
   }
 }
 
