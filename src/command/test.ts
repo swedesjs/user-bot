@@ -1,4 +1,4 @@
-import { getRandomId, IMessageContextSendOptions, MessageContext } from "vk-io"
+import { getRandomId, IMessageContextSendOptions, MessageContext, resolveResource } from "vk-io"
 import { vk } from ".."
 
 const splitInto = (str: string, len: number) => {
