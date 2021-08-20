@@ -27,7 +27,7 @@ export const Stickers: commandTypes = {
         userStickers.totalPrice,
         "."
       )} ${Utils.declOfNum(userStickers.totalPrice, ["голос", "голоса", "голосов"])}/${Utils.separator(userStickers.totalPrice * 7, ".")}₽)\n\n${
-        userStickers.stats.packs.paid > 50
+        userStickers.stats.packs.paid > 120
           ? `Много`
           : userStickers.items
               .filter(x => !x.isFree)

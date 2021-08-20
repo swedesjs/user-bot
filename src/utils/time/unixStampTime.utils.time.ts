@@ -5,7 +5,7 @@ import { Utils } from "../utils.utils"
  * @param stamp Время UnixTime в миллисекундах
  * @returns Время
  */
-export const unixStampTime = (stamp: number) => {
+export const unixStampTime = (stamp: number, declOfNum: boolean = false) => {
   stamp = stamp / 1000
 
   const second = stamp % 60
@@ -22,11 +22,11 @@ export const unixStampTime = (stamp: number) => {
 
   let text = ``
 
-  if (year > 0) text += Math.floor(year) + ` ${Utils.declOfNum(year, ["год", "года", "лет"])} `
-  if (day > 0) text += Math.floor(day) + ` ${Utils.declOfNum(day, ["день", "дня", "дней"])} `
-  if (house > 0) text += Math.floor(house) + ` ${Utils.declOfNum(house, ["час", "часа", "часов"])} `
-  if (minutes > 0) text += Math.floor(minutes) + ` ${Utils.declOfNum(minutes, ["минута", "минуты", "минут"])} `
-  if (second > 0) text += Math.floor(second) + ` ${Utils.declOfNum(second, ["секунда", "секунды", "секунд"])} `
+  if (year > 0) text += Math.floor(year) + (declOfNum ? ` ${Utils.declOfNum(year, ["год", "года", "лет"])} ` : ` ${Utils.declOfNum(year, ["г.", "г.", "л."])} `)
+  if (day > 0) text += Math.floor(day) + (declOfNum ? ` ${Utils.declOfNum(day, ["день", "дня", "дней"])} ` : " д. ")
+  if (house > 0) text += Math.floor(house) + (declOfNum ? ` ${Utils.declOfNum(house, ["час", "часа", "часов"])} ` : " ч. ")
+  if (minutes > 0) text += Math.floor(minutes) + (declOfNum ? ` ${Utils.declOfNum(minutes, ["минута", "минуты", "минут"])} ` : " м. ")
+  if (second > 0) text += Math.floor(second) + (declOfNum ? ` ${Utils.declOfNum(second, ["секунда", "секунды", "секунд"])} ` : " с. ")
 
   return text
 }
