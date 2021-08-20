@@ -97,11 +97,11 @@ declare global {
 
   declare global {
     import { MessageContext } from "vk-io"
-    import { HearManager } from "@vk-io/hear"
+    import { HearManager, HearConditions } from "@vk-io/hear"
 
     type commandTypes = Readonly<{
-      regExp: RegExp
-      func: (ctx: MessageContext, next?: Parameters<HearManager<MessageContext>["hear"]>[1]) => void
+      hearConditions: HearConditions<MessageContext>
+      handler: (ctx: MessageContext, next?: Parameters<HearManager<MessageContext>["hear"]>[1]) => void
     }>
   }
 }

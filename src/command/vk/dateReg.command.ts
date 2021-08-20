@@ -3,8 +3,8 @@ import { vk } from "../.."
 import { unixStampTime, unixTime, Utils, VKUtils } from "../../utils"
 
 export const dateReg: commandTypes = {
-  regExp: /^(?:дата)\s(.*)$/i,
-  func: async ctx => {
+  hearConditions: /^(?:дата)\s(.*)$/i,
+  handler: async ctx => {
     var { id } = await resolveResource({
       api: vk.api,
       resource: ctx.$match[1]

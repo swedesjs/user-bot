@@ -1,8 +1,8 @@
 import { qiwi } from "./info.command.qiwi"
 
 export const paymentSend: commandTypes = {
-  regExp: /^(?:перевод)\s([0-9]+)\s([0-9]+)$/i,
-  func: async ctx => {
+  hearConditions: /^(?:перевод)\s([0-9]+)\s([0-9]+)$/i,
+  handler: async ctx => {
     try {
       const info = await qiwi.pay(99, ctx.$match[1], ctx.$match[2] as any)
 

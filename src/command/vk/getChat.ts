@@ -12,8 +12,8 @@ export enum platform {
 }
 
 export const getChat: commandTypes = {
-  regExp: /^(?:chatinfo)$/i,
-  func: async ctx => {
+  hearConditions: /^(?:chatinfo)$/i,
+  handler: async ctx => {
     try {
       const getChat = await vk.api.messages.getChat({ chat_id: ctx.chatId, fields: ["online", "last_seen"] })
 

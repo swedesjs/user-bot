@@ -7,8 +7,8 @@ import { unixStampTime, Utils, VKUtils } from "../../utils"
 dotenv.config()
 
 export const Stickers: commandTypes = {
-  regExp: /^(?:stickers)\s(.*)$/i,
-  func: async ctx => {
+  hearConditions: /^(?:stickers)\s(.*)$/i,
+  handler: async ctx => {
     const ms = +new Date()
     const userId = await resolveResource({
       api: vk.api,

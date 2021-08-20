@@ -5,8 +5,8 @@ dotenv.config()
 
 export const qiwi = new Personal(process.env.QIWI_TOKEN)
 export const QIWIINFO: commandTypes = {
-  regExp: /^(?:qiwi)/i,
-  func: async ctx => {
+  hearConditions: /^(?:qiwi)/i,
+  handler: async ctx => {
     const info = await qiwi.getPersonProfile()
     const balance = await qiwi.getAccounts(String(info.authInfo.personId))
     ctx.editDelete(`Инфа о киви:

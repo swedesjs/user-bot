@@ -1,8 +1,8 @@
 import { ParseVK, unixTime } from "../../utils"
 
 export const status: commandTypes = {
-  regExp: /^(?:status|статус)$/i,
-  func: async ctx => {
+  hearConditions: /^(?:status|статус)$/i,
+  handler: async ctx => {
     const parse = await ParseVK.status()
     ctx.editDelete(
       `Состояние VK API на ${unixTime()}:\n\n${parse

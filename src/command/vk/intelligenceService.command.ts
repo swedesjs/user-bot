@@ -3,10 +3,10 @@ import { unixTime } from "../../utils"
 import { platform } from "./getChat"
 
 export const intelligenceService: commandTypes = {
-  regExp: /^(?:разведка)\s?(.*)?$/i,
+  hearConditions: /^(?:разведка)\s?(.*)?$/i,
 
   // @ts-expect-error
-  func: async ctx => {
+  handler: async ctx => {
     try {
       const checkForwardAndReply = ctx.replyMessage?.text || ctx.forwards[0]?.text || ctx.$match[1]
       const [checkLink] = checkForwardAndReply.match(/(vk.me\/join\/(\w*))/g)

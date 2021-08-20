@@ -16,6 +16,7 @@ const hearManager = new HearManager<MessageContext>()
 vk.updates.on("message", async (ctx, next) => {
   await ctx.loadMessagePayload()
   if (ctx.senderId !== 651129803) return
+
   ctx.editDelete = async (message: string, ms: number = 60000, params?: IMessageContextSendOptions) => {
     let message_ids: number
     try {
@@ -31,8 +32,8 @@ vk.updates.on("message", async (ctx, next) => {
 vk.updates.on("message", hearManager.middleware)
 
 Object.keys(command).map(x => {
-  const { regExp, func } = command[x] as commandTypes
-  return hearManager.hear(regExp, func)
+  const { hearConditions, handler } = command[x] as commandTypes
+  return hearManager.hear(hearConditions, handler)
 })
 
 vk.updates.start()

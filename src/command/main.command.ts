@@ -4,8 +4,8 @@ import ping from "ping"
 import { unixStampTime, Utils } from "../utils"
 
 export const Main: commandTypes = {
-  regExp: /^(?:main)$/i,
-  func: async ctx => {
+  hearConditions: /^(?:main)$/i,
+  handler: async ctx => {
     const memoryData = process.memoryUsage()
     const dataPing = await ping.promise.probe("vk.com")
     ctx.editDelete(`

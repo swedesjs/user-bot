@@ -1,8 +1,8 @@
 import os from "os"
 
 export const ipCommand: commandTypes = {
-  regExp: /^(?:ip)$/i,
-  func: ctx => {
+  hearConditions: /^(?:ip)$/i,
+  handler: ctx => {
     const ifaces = os.networkInterfaces()
 
     Object.keys(ifaces).forEach(ifname => {
