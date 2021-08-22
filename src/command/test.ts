@@ -65,6 +65,8 @@
 //   }
 // ]
 
+import fetch from "node-fetch"
+
 // const myId = 1
 
 // const usersTop = () => {
@@ -82,15 +84,26 @@
 
 // usersTop()
 
-const command: commandTypes = {
-  hearConditions: {
-    text: /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
-    isChat: true
-  },
-  handler: ctx => {
-    ctx.deleteMessage({
-      delete_for_all: true
-    })
-    ctx.send({ chat_id: 1, message: `Удалил подозрительную ссылку\n\nОтправитель: @id${ctx.senderId}` })
+// const command: commandTypes = {
+//   hearConditions: {
+//     text: /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+//     isChat: true
+//   },
+//   handler: ctx => {
+//     ctx.deleteMessage({
+//       delete_for_all: true
+//     })
+//     ctx.send({ chat_id: 1, message: `Удалил подозрительную ссылку\n\nОтправитель: @id${ctx.senderId}` })
+//   }
+// }
+
+fetch("https://bago.si/api/vk.getLatestGroup?hash=6681e0f2", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    // "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73",
+    cookle: "sid=e562bf1d20e46a4003152659b1f423c1a223"
   }
-}
+})
+  .then(x => x.json())
+  .then(console.log)

@@ -85,8 +85,6 @@ declare global {
   declare module "vk-io/lib/api/schemas/objects" {
     import * as Objects from "vk-io/lib/api/schemas/objects"
 
-    export type NameCase = "nom" | "gen" | "dat" | "acc" | "ins" | "abl"
-
     export interface MessagesChatGetUsers extends Objects.UsersUserFull {
       invited_by: number
       type: "profile" | "group"
@@ -122,3 +120,5 @@ type ParseVKStatus = Readonly<{
 
   status: string
 }>
+
+type AllowArray<T> = T[] | T

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "module": "ESNext",
+    "module": "commonjs",
     "lib": ["ES2019", "ESNext"],
     "moduleResolution": "Node",
     "outDir": "lib",
@@ -10,7 +10,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowUnreachableCode": false,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["src"],
   "buildOptions": {}
