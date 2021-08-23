@@ -5,7 +5,8 @@ export const baseGetCount = async (): Promise<[number, number[]][]> => {
 
   return getGroups.reduce((acc, { groupId, contacts }) => {
     contacts.forEach(id => {
-      const get = acc.find(x => x[0] === +id)
+      const get: number[][] | undefined = acc.find(([x]) => x === +id)
+
       return get ? get[1].push(groupId) : acc.push([+id, [groupId]])
     })
     return acc

@@ -17,7 +17,7 @@ export const deleteMessage: commandTypes = {
 
     let getMessage: MessagesMessage[]
     for await (const count of iterator) {
-      getMessage = (count.items as MessagesGetHistoryResponse["items"]).filter(x => x.from_id === ctx.senderId).filter(x => Date.now() - 86400000 < x.date * 1000)
+      getMessage = (count.items as MessagesGetHistoryResponse["items"]).filter(x => x.from_id === ctx.senderId && Date.now() - 86400000 < x.date * 1000)
     }
 
     const sliceOrNo = getMessage.slice(1, ctx.$match[1] == "all" ? getMessage.length : +ctx.$match[1] + 1)
