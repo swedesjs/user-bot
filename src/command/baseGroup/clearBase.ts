@@ -1,10 +1,10 @@
-import { groupsRepository } from "../.."
+import { createCollectIterator } from "vk-io"
+import { groupsRepository, vk } from "../.."
 
 export const clearBase: commandTypes = {
   hearConditions: /^(?:очистить)$/i,
   handler: async ctx => {
     const getClear = await groupsRepository.find()
-
     const getCountDelete = getClear.filter(x => x.contacts?.length < 1).map(x => groupsRepository.delete(x.groupId))
 
     let count = 0
@@ -12,6 +12,8 @@ export const clearBase: commandTypes = {
       if (a.groupId === b.groupId) count += 1
       return a
     })
+    // @ts/*  */-expect-error
+    // const groupInfo = await vk.api.groups.getById({ group_ids: getClear.map(x => x.groupId) })
 
     ctx.editDelete(`Было очищено ${getCountDelete.length} мусора
 Найдено повторющихся ID: ${count}`)

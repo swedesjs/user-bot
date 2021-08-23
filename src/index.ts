@@ -1,11 +1,12 @@
 import { Connection, Repository, createConnections, getRepository } from "typeorm"
 import { IMessageContextSendOptions, MessageContext, VK } from "vk-io"
+import QuestionManager, { IQuestionMessageContext } from "vk-io-question"
 import { HearManager } from "@vk-io/hear"
 import dotenv from "dotenv"
 
-import * as command from "./command"
-import { delay } from "./utils"
 import { LastId, VKGroup } from "./entites/baseGroup.entity"
+import { delay } from "./utils"
+import * as command from "./command"
 
 dotenv.config()
 
@@ -13,7 +14,8 @@ export const vk = new VK({
   token: process.env.TOKEN
 })
 
-const hearManager = new HearManager<MessageContext>()
+const questionManager = new QuestionManager()
+const hearManager = new HearManager<MessageContext & IQuestionMessageContext>()
 
 vk.updates.on("message", async (ctx, next) => {
   await ctx.loadMessagePayload()
@@ -31,6 +33,7 @@ vk.updates.on("message", async (ctx, next) => {
   }
   await next()
 })
+vk.updates.on("message", questionManager.middleware)
 vk.updates.on("message", hearManager.middleware)
 
 Object.keys(command).map(x => {
@@ -58,28 +61,38 @@ setInterval(async () => {
     const getGroupsAll = await groupsRepository.find()
 
     // @ts-expect-error
-    const getGroups = await vk.api.groups.getById({ group_ids: Array.from({ length: 20 }, (_, x) => group.groupId + x), fields: ["contacts"] })
+    const getGroups = await vk.api.groups.getById({ group_ids: Array.from({ length: 500 }, (_, x) => group.groupId + x), fields: ["contacts"] })
 
-    getGroups.forEach(async ({ id, contacts }) => {
-      group.groupId += 1
+    await new Promise(resolve =>
+      resolve(
+        // @ts-expect-error
+        getGroups.map(async ({ id, contacts, name }) => {
+          if (name === "DELETED") return (group.groupId -= 1)
 
-      // @ts-expect-error
-      if (contacts?.length < 1) return
-      // @ts-expect-error
-      if (!contacts?.filter(x => x.user_id)) return
-      // @ts-expect-error
-      if (getGroupsAll.find(x => x.groupId == group.groupId)) return
+          group.groupId += 1
 
-      console.log(id, contacts)
-      const groups = new VKGroup()
-      groups.groupId = id
-      groups.contacts = contacts.map(x => x.user_id)
+          // @ts-expect-error
+          if (contacts?.length < 1) return
 
-      return await groupsRepository.save(groups)
-    })
+          // @ts-expect-error
+          if (!contacts?.filter(x => x.user_id)) return
+
+          // @ts-expect-error
+          if (getGroupsAll.find(x => x.groupId == id)) return
+
+          console.log(id, contacts)
+
+          const groups = new VKGroup()
+          groups.groupId = id
+          groups.contacts = contacts.map(x => x.user_id)
+
+          await groupsRepository.save(groups)
+        })
+      )
+    )
 
     await lastIdRepository.save(group)
   } catch (err) {
     console.log(err)
   }
-}, 30000)
+}, 10000)

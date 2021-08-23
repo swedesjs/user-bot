@@ -14,7 +14,7 @@ export const getGroup: commandTypes = {
     const groupsInfo = await vk.api.groups.getById({ group_ids: getGroupUser.map(x => x.groupId), fields: ["members_count"] })
 
     ctx.editDelete(`Найдено ${groupsInfo.length} групп
-    ${groupsInfo.map(x => `@club${x.id} (${x.name}) (${x.members_count})`)}
+    ${groupsInfo.map(x => `@club${x.id} (${x.name}) (${x.members_count})`).join("\n")}
 `)
   }
 }

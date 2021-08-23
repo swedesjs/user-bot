@@ -9,7 +9,9 @@ export const intelligenceService: commandTypes = {
   handler: async ctx => {
     try {
       const checkForwardAndReply = ctx.replyMessage?.text || ctx.forwards[0]?.text || ctx.$match[1]
-      const [checkLink] = checkForwardAndReply.match(/(vk.me\/join\/([a-z0-9=/]+))/gi)
+      const [checkLink] = checkForwardAndReply.match(/(vk.me\/join\/([a-z0-9=/\_]+))/gi)
+      console.log(checkLink)
+
       if (!checkForwardAndReply) return ctx.editDelete("Долбаеб текст сообщений где где?")
 
       const { profiles, preview, groups } = await vk.api.messages.getChatPreview({ link: checkLink, fields: ["online", "last_seen"], v: "5.21" })

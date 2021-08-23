@@ -20,7 +20,7 @@ ${getGroups
         .find(u => u.groupId == x.id)
         .contacts.map(x => {
           const { first_name, last_name } = getUser.find(u => u.id == x)
-          return `@id${x} (${first_name} ${last_name})`
+          return `@id${x} (${first_name.slice(0, 1)}. ${last_name})`
         })
         .join(", ")}`
   )

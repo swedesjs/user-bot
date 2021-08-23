@@ -92,14 +92,16 @@ declare global {
   }
 
   declare module "@vk-io/hear" {}
+  declare module "vk-io-question" {}
 
   declare global {
     import { MessageContext } from "vk-io"
     import { HearManager, HearConditions } from "@vk-io/hear"
+    import { IQuestionMessageContext } from "vk-io-question"
 
     type commandTypes = Readonly<{
       hearConditions: HearConditions<MessageContext>
-      handler: (ctx: MessageContext, next?: Parameters<HearManager<MessageContext>["hear"]>[1]) => void
+      handler: (ctx: MessageContext & IQuestionMessageContext, next?: Parameters<HearManager<MessageContext>["hear"]>[1]) => void
     }>
   }
 }
