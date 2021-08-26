@@ -1,6 +1,5 @@
 import { Connection, Repository, createConnections, getRepository } from "typeorm"
 import { IMessageContextSendOptions, MessageContext, VK } from "vk-io"
-import QuestionManager, { IQuestionMessageContext } from "vk-io-question"
 import { HearManager } from "@vk-io/hear"
 import dotenv from "dotenv"
 
@@ -14,8 +13,7 @@ export const vk = new VK({
   token: process.env.TOKEN
 })
 
-const questionManager = new QuestionManager()
-const hearManager = new HearManager<MessageContext & IQuestionMessageContext>()
+const hearManager = new HearManager<MessageContext>()
 
 vk.updates.on("message", async (ctx, next) => {
   await ctx.loadMessagePayload()
@@ -33,12 +31,11 @@ vk.updates.on("message", async (ctx, next) => {
   }
   await next()
 })
-vk.updates.on("message", questionManager.middleware)
 vk.updates.on("message", hearManager.middleware)
 
-Object.keys(command).map(x => {
-  const { hearConditions, handler } = command[x] as commandTypes
-  return hearManager.hear(hearConditions, handler)
+Object.keys(command).forEach(x => {
+  const { hearConditions, handler }: commandTypes = command[x]
+  hearManager.hear(hearConditions, handler)
 })
 
 vk.updates.start()
@@ -79,9 +76,6 @@ setInterval(async () => {
 
           // @ts-expect-error
           if (getGroupsAll.find(x => x.groupId == id)) return
-
-          console.log(id, contacts)
-
           const groups = new VKGroup()
           groups.groupId = id
           groups.contacts = contacts.map(x => x.user_id)

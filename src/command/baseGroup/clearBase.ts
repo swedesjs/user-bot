@@ -12,8 +12,9 @@ export const clearBase: commandTypes = {
       if (a.groupId === b.groupId) count += 1
       return a
     })
-    // @ts/*  */-expect-error
-    // const groupInfo = await vk.api.groups.getById({ group_ids: getClear.map(x => x.groupId) })
+
+    // @ts-expect-error
+    const groupInfo = await vk.api.groups.getById({ group_ids: getClear.map(x => x.groupId) })
 
     ctx.editDelete(`Было очищено ${getCountDelete.length} мусора
 Найдено повторющихся ID: ${count}`)

@@ -6,21 +6,23 @@ export const baseGroup: commandTypes = {
     const getBase = await groupsRepository.find()
     // console.log(getBase)
 
-    const getBaseSrez = getBase.slice(getBase.length - 10, getBase.length).reverse()
+    const getBaseSlice = getBase.slice(getBase.length - 10, getBase.length).reverse()
     // @ts-expect-error
-    const getGroups = await vk.api.groups.getById({ group_ids: getBaseSrez.map(x => x.groupId) })
+    const getGroups = await vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"] })
+    const filterGroup = getGroups.filter(x => x.name !== "Частная группа")
+
     // @ts-expect-error
-    const getUser = await vk.api.users.get({ user_ids: getBaseSrez.flatMap(x => x.contacts) })
+    const getUser = await vk.api.users.get({ user_ids: getBaseSlice.flatMap(x => x.contacts) })
 
     ctx.editDelete(`Последние 10 групп занесенных в базу:
-${getGroups
+${filterGroup
   .map(
-    x =>
-      `@club${x.id} (${x.name}) - ${getBaseSrez
+    (x, index) =>
+      `${index + 1}. @club${x.id} (${x.name}) - ${getBaseSlice
         .find(u => u.groupId == x.id)
-        .contacts.map(x => {
-          const { first_name, last_name } = getUser.find(u => u.id == x)
-          return `@id${x} (${first_name.slice(0, 1)}. ${last_name})`
+        .contacts.map(id => {
+          const { first_name, last_name } = getUser.find(u => u.id == id)
+          return `@id${id} (${first_name.slice(0, 1)}. ${last_name}) - (🗣 ${x.members_count || 0}) `
         })
         .join(", ")}`
   )
@@ -28,6 +30,7 @@ ${getGroups
 
 Общее количество групп в базе: ${getBase.length}
 Последний ID: ${(await lastIdRepository.findOne(1)).groupId}
+Частных групп: ${getGroups.length - filterGroup.length}
     `)
   }
 }

@@ -7,23 +7,21 @@ import { unixStampTime, Utils, VKUtils } from "../../utils"
 dotenv.config()
 
 export const Stickers: commandTypes = {
-  hearConditions: /^(?:stickers)\s(.*)$/i,
+  hearConditions: /^(?:stickers)\s?(.*)?$/i,
+
   handler: async ctx => {
+    const userId = ctx.replyMessage?.senderId || ctx.forwards[0]?.senderId || (await resolveResource({ api: vk.api, resource: ctx.$match[1] })).id
     const ms = +new Date()
-    const userId = await resolveResource({
-      api: vk.api,
-      resource: ctx.$match[1]
-    })
 
     const [info] = await vk.api.users.get({
-      user_id: userId.id,
+      user_id: userId,
       name_case: "gen"
     })
 
-    const userStickers = await VKUtils.getUserStickerPacks(process.env.VKME_TOKEN, userId.id)
+    const userStickers = await VKUtils.getUserStickerPacks(process.env.VKME_TOKEN, userId)
 
     ctx.editDelete(
-      `У @id${userId.id} (${info.first_name} ${info.last_name}) ${userStickers.stats.packs.paid}/${userStickers.stats.packs.count} платных наборов стикеров (${Utils.separator(
+      `У @id${userId} (${info.first_name} ${info.last_name}) ${userStickers.stats.packs.paid}/${userStickers.stats.packs.count} платных наборов стикеров (${Utils.separator(
         userStickers.totalPrice,
         "."
       )} ${Utils.declOfNum(userStickers.totalPrice, ["голос", "голоса", "голосов"])}/${Utils.separator(userStickers.totalPrice * 7, ".")}₽)\n\n${
