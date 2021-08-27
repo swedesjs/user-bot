@@ -3,3 +3,4 @@ lib
 package-lock.json
 .env
 ormconfig.json
+src/command/test.ts
