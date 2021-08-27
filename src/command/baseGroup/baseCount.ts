@@ -1,10 +1,20 @@
-import { vk } from "../.."
-import { baseGetCount } from "../../utils/base"
+import { groupsRepository, vk } from "../.."
 
 export const baseCount: commandTypes = {
   hearConditions: /^(?:countBase)$/i,
   handler: async ctx => {
-    const [[userId, groupsIds]] = (await baseGetCount()).sort(([, a], [, b]) => b.length - a.length)
+    const getGroups = await groupsRepository.find()
+
+    const [[userId, groupsIds]] = getGroups
+      .reduce((acc: [number, number[]][], { groupId, contacts }) => {
+        contacts.forEach(id => {
+          const get = acc.find(([x]) => x === +id)
+
+          return get ? get[1].push(groupId) : acc.push([+id, [groupId]])
+        })
+        return acc
+      }, [])
+      .sort(([, a], [, b]) => b.length - a.length)
 
     const [{ id, first_name, last_name }] = await vk.api.users.get({ user_id: userId })
 

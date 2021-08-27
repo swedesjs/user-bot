@@ -5,11 +5,14 @@
   "dependencies": {
     "@vk-io/hear": "^1.1.0",
     "convert-layout": "^0.9.0",
+    "diskspace": "^2.0.0",
     "dotenv": "^10.0.0",
     "mysql2": "^2.3.0",
     "node-fetch": "^2.6.1",
+    "os-utils": "^0.0.14",
     "ping": "^0.4.1",
     "qiwi-sdk": "^1.6.6",
+    "systeminformation": "^5.8.6",
     "typeorm": "^0.2.37",
     "vk-io": "^4.3.2"
   },
@@ -18,6 +21,7 @@
     "@types/convert-layout": "^0.5.1",
     "@types/node": "^16.4.10",
     "@types/node-fetch": "^2.5.12",
+    "@types/os-utils": "^0.0.1",
     "@types/ping": "^0.2.1"
   },
   "scripts": {

@@ -16,40 +16,42 @@
 // const TvoyaMat: MatType.Shabolda
 // declare const tvoyaMat: MatType.Shabolda
 
-import fetch from "node-fetch"
-import { stringify } from "querystring"
-;(async () => {
-  const result = await fetch("https://api.bago.si/method/app.getGroups?" + stringify({ id: 1, v: "a90c9ee0" }), {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-vk-sign":
-        "vk_access_token_settings=&vk_app_id=7183114&vk_are_notifications_enabled=0&vk_is_app_user=0&vk_is_favorite=0&vk_language=en&vk_platform=desktop_web&vk_ref=other&vk_ts=1629990305&vk_user_id=671597791&sign=BGpRA3mxo5zML8K7UbkU_TkzoJYDUmVAiRvcfDyFzdk"
-    }
-  })
+// import fetch from "node-fetch"
+// import { stringify } from "querystring"
+// ;(async () => {
+//   const result = await fetch("https://api.bago.si/method/app.getGroups?" + stringify({ id: 1, v: "a90c9ee0" }), {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "x-vk-sign":
+//         "vk_access_token_settings=&vk_app_id=7183114&vk_are_notifications_enabled=0&vk_is_app_user=0&vk_is_favorite=0&vk_language=en&vk_platform=desktop_web&vk_ref=other&vk_ts=1629990305&vk_user_id=671597791&sign=BGpRA3mxo5zML8K7UbkU_TkzoJYDUmVAiRvcfDyFzdk"
+//     }
+//   })
 
-  const {
-    response: { items }
-  }: getGroups = await result.json()
+//   const {
+//     response: { items }
+//   }: getGroups = await result.json()
 
-  console.log(`Группы Павла дурова:
-  
-${items
-  .slice(0, 20)
-  .map((x, index) => `${index}. @club${x.id} (${x.name}) (membersCount: ${x.members_count})`)
-  .join("\n")}`)
-})()
+//   console.log(`Группы Павла дурова:
 
-type getGroups = {
-  response: {
-    count: number
-    items: {
-      id: number
-      name: string
-      photo: string
-      domain: string
-      members_count: number
-      verified: 0 | 1
-    }[]
-  }
-}
+// ${items
+//   .slice(0, 20)
+//   .map((x, index) => `${index}. @club${x.id} (${x.name}) (membersCount: ${x.members_count})`)
+//   .join("\n")}`)
+// })()
+
+// type getGroups = {
+//   response: {
+//     count: number
+//     items: {
+//       id: number
+//       name: string
+//       photo: string
+//       domain: string
+//       members_count: number
+//       verified: 0 | 1
+//     }[]
+//   }
+// }
+
+Array.from({ length: 3 })
