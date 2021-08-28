@@ -6,7 +6,6 @@
     "moduleResolution": "Node",
     "outDir": "lib",
     "esModuleInterop": true,
-    // "baseUrl": "src",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowUnreachableCode": false,

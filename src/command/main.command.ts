@@ -15,7 +15,7 @@ export const Main: commandTypes = {
     const ms = Date.now()
     const dataPing = await ping.probe("api.vk.com")
 
-    const { free, used, total } = await si.mem()
+    const { used, total } = await si.mem()
 
     diskspace.check("/", async (_, { total: totalDisk, free: freeDisk }) =>
       ctx.editDelete(`

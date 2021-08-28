@@ -22,7 +22,7 @@ vk.updates.on("message", async (ctx, next) => {
   ctx.editDelete = async (message: string, ms: number = 60000, params?: IMessageContextSendOptions) => {
     let message_ids: number
     try {
-      message_ids = await ctx.editMessage({ message, ...params })
+      message_ids = await ctx.editMessage({ message, ...params, dont_parse_links: true, keep_snippets: false })
     } catch (message) {
       message_ids = await ctx.editMessage({ message })
     }

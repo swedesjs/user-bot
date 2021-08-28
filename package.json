@@ -14,6 +14,7 @@
     "qiwi-sdk": "^1.6.6",
     "systeminformation": "^5.8.6",
     "typeorm": "^0.2.37",
+    "typescript": "^4.4.2",
     "vk-io": "^4.3.2"
   },
   "devDependencies": {
