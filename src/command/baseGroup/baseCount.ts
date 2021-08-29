@@ -16,7 +16,7 @@ export const baseCount: commandTypes = {
       }, [])
       .sort(([, a], [, b]) => b.length - a.length)
 
-    const [{ id, first_name, last_name }] = await vk.api.users.get({ user_id: userId })
+    const [{ id, first_name, last_name }] = await vk.api.users.get({ user_id: userId, lang: "en" })
 
     //@ts-expect-error
     const getGroupsToApi = await vk.api.groups.getById({ group_ids: groupsIds, fields: ["members_count"] })

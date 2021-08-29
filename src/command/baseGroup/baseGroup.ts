@@ -1,4 +1,5 @@
 import { groupsRepository, lastIdRepository, vk } from "../.."
+import { Utils } from "../../utils"
 
 export const baseGroup: commandTypes = {
   hearConditions: /^(?:база)$/i,
@@ -8,13 +9,13 @@ export const baseGroup: commandTypes = {
 
     const getBaseSlice = getBase.slice(getBase.length - 10, getBase.length).reverse()
     // @ts-expect-error
-    const getGroups = await vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"] })
+    const getGroups = await vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"],  })
     const filterGroup = getGroups.filter(x => x.name !== "Частная группа")
 
     // @ts-expect-error
-    const getUser = await vk.api.users.get({ user_ids: getBaseSlice.flatMap(x => x.contacts) })
+    const getUser = await vk.api.users.get({ user_ids: getBaseSlice.flatMap(x => x.contacts), lang: "en" })
 
-    ctx.editDelete(`Последние 10 групп занесенных в базу:
+    ctx.editDelete(`Последние ${filterGroup.length} ${Utils.declOfNum(filterGroup.length, ["группа", "группы", "групп"])} групп занесенных в базу:
 ${filterGroup
   .map(
     (x, index) =>
