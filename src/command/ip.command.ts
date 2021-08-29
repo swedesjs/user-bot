@@ -32,26 +32,27 @@ export const ipCommand: commandTypes = {
 }
 
 type IpResponse =
-  | ({ status: "success" } & Record<
-      | "continent"
-      | "continentCode"
-      | "country"
-      | "countryCode"
-      | "region"
-      | "regionName"
-      | "city"
-      | "district"
-      | "zip"
-      | "timezone"
-      | "currency"
-      | "isp"
-      | "org"
-      | "as"
-      | "asname"
-      | "reverse"
-      | "query",
-      string
-    > &
+  | (Record<"status", "success"> &
+      Record<
+        | "continent"
+        | "continentCode"
+        | "country"
+        | "countryCode"
+        | "region"
+        | "regionName"
+        | "city"
+        | "district"
+        | "zip"
+        | "timezone"
+        | "currency"
+        | "isp"
+        | "org"
+        | "as"
+        | "asname"
+        | "reverse"
+        | "query",
+        string
+      > &
       Record<"lat" | "lon" | "offset", number> &
       Record<"mobile" | "proxy" | "hosting", boolean>)
-  | ({ status: "fail" } & Record<"message" | "query", string>)
+  | (Record<"status", "fail"> & Record<"message" | "query", string>)

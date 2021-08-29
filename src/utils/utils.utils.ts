@@ -39,7 +39,13 @@ export class Utils {
    * string.declOfNum(3, ["помидор", "помидора", "помидоров"]);
    */
   static declOfNum(inputNumber: number, titlesArray: [string, string, string]): string {
-    return titlesArray[inputNumber % 10 === 1 && inputNumber % 100 !== 11 ? 0 : inputNumber % 10 >= 2 && inputNumber % 10 <= 4 && (inputNumber % 100 < 10 || inputNumber % 100 >= 20) ? 1 : 2]
+    return titlesArray[
+      inputNumber % 10 === 1 && inputNumber % 100 !== 11
+        ? 0
+        : inputNumber % 10 >= 2 && inputNumber % 10 <= 4 && (inputNumber % 100 < 10 || inputNumber % 100 >= 20)
+        ? 1
+        : 2
+    ]
   }
 
   static total(inputArray: number[]) {
@@ -56,3 +62,6 @@ export class Utils {
     return outputArray
   }
 }
+
+export const chunkArray = <T>(arr: T[], size: number): T[][] =>
+  arr.length > size ? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)] : [arr]

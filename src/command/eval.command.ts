@@ -1,12 +1,14 @@
 import util from "util"
 
 export const evalCommand: commandTypes = {
-  hearConditions: /^(?:eval)\s(.*)$/i,
+  hearConditions: /^(?:eval)\s((?:.|\s)+)$/i,
   // @ts-expect-error
   handler: async ctx => {
     try {
       const ms = +new Date()
-      let result = eval(ctx.$match[1])
+      let result = eval(`(() => {
+        ${ctx.$match[1]}
+      })()`)
 
       if (util.types.isPromise(result)) result = await result
       const code = typeof result == "object" ? JSON.stringify(result, null, "\t") : typeof result == "symbol" ? String(result) : result

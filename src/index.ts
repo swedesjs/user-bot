@@ -1,5 +1,5 @@
 import { Connection, Repository, createConnections, getRepository } from "typeorm"
-import { IMessageContextSendOptions, MessageContext, VK } from "vk-io"
+import { IMessageContextSendOptions, Keyboard, MessageContext, VK } from "vk-io"
 import { HearManager } from "@vk-io/hear"
 import dotenv from "dotenv"
 

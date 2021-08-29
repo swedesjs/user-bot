@@ -1,6 +1,6 @@
 import { exec } from "child_process"
 import path from "path"
-import util from "util"
+import { promisify } from "util"
 import fs from "fs"
 
 const compliteOptions: CompliteOptions = {
@@ -21,7 +21,7 @@ export const tsEval = async (option: string) => {
 
   const deleteFile = () => [file, replaceJS].forEach(x => fs.unlinkSync(x))
 
-  await util.promisify(fs.writeFile)(file, option)
+  await promisify(fs.writeFile)(file, option)
 
   await new Promise((resovle, reject) =>
     exec(
@@ -38,7 +38,7 @@ export const tsEval = async (option: string) => {
     )
   )
 
-  const save = fs.readFileSync(replaceJS, "utf-8")
+  const save = await promisify(fs.readFile)(replaceJS, { encoding: "utf-8" })
   deleteFile()
   return save
 }
