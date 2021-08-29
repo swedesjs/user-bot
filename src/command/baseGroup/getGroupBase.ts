@@ -2,7 +2,7 @@ import { resolveResource } from "vk-io"
 import { groupsRepository, vk } from "../.."
 
 export const getGroup: commandTypes = {
-  hearConditions: /^(?:getGroup)\s?(.*)?$/i,
+  hearConditions: /^(?:getGroup|группы)\s?(.*)?$/i,
   // @ts-expect-error
   handler: async ctx => {
     const user_id = ctx.replyMessage?.senderId || ctx.forwards[0]?.senderId || (await resolveResource({ api: vk.api, resource: ctx.$match[1] })).id

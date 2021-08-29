@@ -5,17 +5,15 @@ export const baseGroup: commandTypes = {
   hearConditions: /^(?:база)$/i,
   handler: async ctx => {
     const getBase = await groupsRepository.find()
-    // console.log(getBase)
-
-    const getBaseSlice = getBase.slice(getBase.length - 10, getBase.length).reverse()
+    const getBaseSlice = getBase.slice(getBase.length - 20, getBase.length).reverse()
     // @ts-expect-error
-    const getGroups = await vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"],  })
+    const getGroups = await vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"] })
     const filterGroup = getGroups.filter(x => x.name !== "Частная группа")
 
     // @ts-expect-error
     const getUser = await vk.api.users.get({ user_ids: getBaseSlice.flatMap(x => x.contacts), lang: "en" })
 
-    ctx.editDelete(`Последние ${filterGroup.length} ${Utils.declOfNum(filterGroup.length, ["группа", "группы", "групп"])} групп занесенных в базу:
+    ctx.editDelete(`Последние ${filterGroup.length} ${Utils.declOfNum(filterGroup.length, ["группа", "группы", "групп"])} занесенных в базу:
 ${filterGroup
   .map(
     (x, index) =>

@@ -2,9 +2,7 @@ import { createCollectIterator } from "vk-io"
 import { MessagesMessage } from "vk-io/lib/api/schemas/objects"
 import { MessagesGetHistoryResponse } from "vk-io/lib/api/schemas/responses"
 import { vk } from "../.."
-import { Utils } from "../../utils"
-
-const chunkArray = <T>(arr: T[], size: number): T[][] => (arr.length > size ? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)] : [arr])
+import { Utils, chunkArray } from "../../utils"
 
 export const deleteMessage: commandTypes = {
   hearConditions: /^(?:deleteMessage)\s(all|([0-9]+))$/i,

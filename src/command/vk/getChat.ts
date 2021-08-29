@@ -3,8 +3,8 @@ import { unixTime } from "../../utils"
 
 export enum platform {
   Modile = 1,
-  Iphone,
-  iPad,
+  IPhone,
+  IPad,
   Android,
   WindowsPhone,
   DesktopWindows10,

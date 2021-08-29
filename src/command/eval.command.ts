@@ -2,7 +2,6 @@ import util from "util"
 
 export const evalCommand: commandTypes = {
   hearConditions: /^(?:eval)\s((?:.|\s)+)$/i,
-  // @ts-expect-error
   handler: async ctx => {
     try {
       const ms = +new Date()
@@ -15,7 +14,7 @@ export const evalCommand: commandTypes = {
 
       ctx.editDelete(`🔚 Итог:\n⚄ ${code}\n✄Тип: ${typeof result}\n\n⏄Код выполнен за ${+new Date() - ms} мс. `)
     } catch (message) {
-      return ctx.editDelete(message)
+      ctx.editDelete(message)
     }
   }
 }
