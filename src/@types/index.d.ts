@@ -101,7 +101,7 @@ declare global {
 
     type commandTypes = Readonly<{
       hearConditions: HearConditions<MessageContext>
-      handler: (ctx: MessageContext, next?: Parameters<HearManager<MessageContext>["hear"]>[1]) => void
+      handler: (ctx: MessageContext, next?: Parameters<Parameters<HearManager<MessageContext>["hear"]>[1]>[1]) => void
     }>
   }
 }

@@ -1,13 +1,14 @@
-import { Connection, Repository, createConnections, getRepository } from "typeorm"
-import { IMessageContextSendOptions, Keyboard, MessageContext, VK } from "vk-io"
+import { Repository, getRepository, createConnection } from "typeorm"
+import { IMessageContextSendOptions, MessageContext, VK } from "vk-io"
 import { HearManager } from "@vk-io/hear"
-import dotenv from "dotenv"
+import { config } from "dotenv"
 
-import { LastId, VKGroup } from "./entites/baseGroup.entity"
+import { LastId, VKGroup } from "./entites"
 import { delay } from "./utils"
+
 import * as command from "./command"
 
-dotenv.config()
+config()
 
 export const vk = new VK({
   token: process.env.TOKEN
@@ -21,33 +22,33 @@ vk.updates.on("message", async (ctx, next) => {
 
   ctx.editDelete = async (message: string, ms: number = 60000, params?: IMessageContextSendOptions) => {
     let message_ids: number
+
     try {
-      message_ids = await ctx.editMessage({ message, ...params, dont_parse_links: true, keep_snippets: false })
+      message_ids = await ctx.editMessage({ message, ...params, dont_parse_links: true })
     } catch (message) {
       message_ids = await ctx.editMessage({ message })
     }
+
     await delay(ms)
     return ctx.deleteMessage({ message_ids, delete_for_all: true })
   }
+
   await next()
 })
+
 vk.updates.on("message", hearManager.middleware)
 
-Object.keys(command).forEach(x => {
-  const { hearConditions, handler }: commandTypes = command[x]
-  hearManager.hear(hearConditions, handler)
-})
+Object.entries(command).forEach(([, { hearConditions, handler }]) => hearManager.hear(hearConditions, handler))
 
 vk.updates.start()
 
-let db: Connection
 export let groupsRepository: Repository<VKGroup>
 export let lastIdRepository: Repository<LastId>
 ;(async () => {
-  db = (await createConnections())[0]
   try {
-    await db.connect()
+    await (await createConnection()).connect()
   } catch {}
+
   groupsRepository = getRepository(VKGroup)
   lastIdRepository = getRepository(LastId)
 })()

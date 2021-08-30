@@ -53,6 +53,9 @@
 //     }[]
 //   }
 // }
-/**
- * Created by user on 2017/12/14/014.
- */
+type Subsequence = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+type Param = `00${Exclude<Subsequence, 0 | 1>}`
+type CodeType = `${Param}${Subsequence | ("A" | "B" | "C" | "D" | "E" | "F")}`
+type UnicodeType<T extends Param, K extends Param = never> = [string, Extract<CodeType, `${T}${string}`>, Extract<CodeType, `${K}${string}`>?][]
+
+const unicode: UnicodeType<"002"> = [["", "0025"]]

@@ -9,10 +9,10 @@ export class Utils {
   }
   /**
    * @description Разделяет число по 3 символа
-   * @param {number} number Число
-   * @param {string} separator Разделитель
-   * @param {string=} dotSymbol Разделитель между целой и дробной частью числа
-   * @returns {string} Итоговую строку
+   * @param number Число
+   * @param separator Разделитель
+   * @param  dotSymbol Разделитель между целой и дробной частью числа
+   * @returns Итоговую строку
    * @example
    * number.separator(100000, "."); // => 100.000
    * number.separator(100000.50, ".", ","); // => 100.000,50
@@ -31,9 +31,9 @@ export class Utils {
   /**
    * Функция для корректного склонения чисел
    *
-   * @param {number} inputNumber Число
-   * @param {string[]} titlesArray Строки для склонения
-   * @returns {string} корректное название
+   * @param inputNumber Число
+   * @param titlesArray Строки для склонения
+   * @returns корректное название
    * @example
    * // => помидора
    * string.declOfNum(3, ["помидор", "помидора", "помидоров"]);
