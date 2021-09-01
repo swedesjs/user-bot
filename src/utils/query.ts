@@ -9,13 +9,13 @@ export class Query {
       this.client.on("connect", () =>
         this.client.send(
           Buffer.concat([
-            Buffer.from([0x01]),
+            Buffer.from([1]),
             Buffer.alloc(9),
-            Buffer.alloc(2, 0xff),
-            Buffer.from([0x00]),
-            Buffer.alloc(4, 0xfe),
-            Buffer.alloc(4, 0xfd),
-            Buffer.from([0x12, 0x34, 0x56, 0x78]),
+            Buffer.alloc(2, 255),
+            Buffer.from([0]),
+            Buffer.alloc(4, 254),
+            Buffer.alloc(4, 253),
+            Buffer.from([18, 52, 86, 120]),
             Buffer.alloc(8)
           ])
         )
@@ -33,7 +33,7 @@ export class Query {
     return new Promise<ConnectMessage>(resovle => {
       this.client.on("connect", () =>
         this.client.send(
-          Buffer.concat([Buffer.from([0xfe]), Buffer.from([0xfd]), Buffer.from([9]), Buffer.from([0x00]), Buffer.alloc(2), Buffer.from([0x01])])
+          Buffer.concat([Buffer.from([254]), Buffer.from([253]), Buffer.from([9]), Buffer.from([0]), Buffer.alloc(2), Buffer.from([1])])
         )
       )
 
@@ -59,7 +59,7 @@ export class Query {
           const buffer = Buffer.alloc(4)
           buffer.writeInt32BE(parseInt(response.toString("utf-8", 5)))
 
-          this.client.send(Buffer.concat([Buffer.from([0xfe, 0xfd]), Buffer.alloc(4, 0x00), Buffer.from([0x01]), buffer, Buffer.alloc(4, 0x00)]))
+          this.client.send(Buffer.concat([Buffer.from([254, 253]), Buffer.alloc(4, 0), Buffer.from([1]), buffer, Buffer.alloc(4, 0)]))
         }
       })
     })

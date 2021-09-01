@@ -1,4 +1,5 @@
 import { resolveResource } from "vk-io"
+import { Utils } from "../../utils"
 import { groupsRepository, vk } from "../.."
 
 export const deleteBase: commandTypes = {
@@ -11,6 +12,6 @@ export const deleteBase: commandTypes = {
     deleteCount.map(x => groupsRepository.delete(x.groupId))
 
     ctx.editDelete(`Удалено групп: ${deleteCount.length}
-    Осталось групп: ${getGroups.length - deleteCount.length}`)
+    Осталось групп: ${Utils.separator(getGroups.length - deleteCount.length)}`)
   }
 }

@@ -17,7 +17,7 @@ export class Utils {
    * number.separator(100000, "."); // => 100.000
    * number.separator(100000.50, ".", ","); // => 100.000,50
    */
-  static separator(number: number, separator: string, dotSymbol: string | undefined = "."): string {
+  static separator(number: number, separator: "." | "," = ",", dotSymbol: "." | "," = ".") {
     const splittedNumber = Math.abs(number).toString().split(".")
     splittedNumber[0] = splittedNumber[0]
       .split("")

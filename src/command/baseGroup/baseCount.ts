@@ -10,20 +10,22 @@ export const baseCount: commandTypes = {
     const [[userId, groupsIds]] = getGroups
       .reduce((acc: [number, number[]][], { groupId, contacts }) => {
         contacts.forEach(id => {
-          const get = acc.find(([x]) => x === +id)
+          const [, get] = acc.find(([x]) => x === +id)
 
-          return get ? get[1].push(groupId) : acc.push([+id, [groupId]])
+          return get ? get.push(groupId) : acc.push([+id, [groupId]])
         })
         return acc
       }, [])
       .sort(([, a], [, b]) => b.length - a.length)
 
-    const [{ id, first_name, last_name }] = await vk.api.users.get({ user_id: userId, lang: "en" })
+    const [[{ id, first_name, last_name }], getGroupsToApi] = await Promise.all([
+      vk.api.users.get({ user_id: userId, lang: "en" }),
+      // @ts-expect-error
+      vk.api.groups.getById({ group_ids: groupsIds, fields: ["members_count"] })
+    ])
 
-    //@ts-expect-error
-    const getGroupsToApi = await vk.api.groups.getById({ group_ids: groupsIds, fields: ["members_count"] })
     const filterGroup = getGroupsToApi.filter(x => x.name !== "Частная группа")
-    const sliceFilter = filterGroup.slice(0, 90)
+    const sliceFilter = filterGroup.slice(0, 60)
 
     ctx.editDelete(
       `Самое большое количество групп имеет - @id${id} (${first_name} ${last_name}) - ${groupsIds.length}

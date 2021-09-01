@@ -38,7 +38,7 @@ vk.updates.on("message", async (ctx, next) => {
 
 vk.updates.on("message", hearManager.middleware)
 
-Object.entries(command).forEach(([, { hearConditions, handler }]) => hearManager.hear(hearConditions, handler))
+Object.values(command).forEach(({ hearConditions, handler }) => hearManager.hear(hearConditions, handler))
 
 vk.updates.start()
 
@@ -56,34 +56,34 @@ export let lastIdRepository: Repository<LastId>
 setInterval(async () => {
   const group = await lastIdRepository.findOne(1)
   try {
-    const getGroupsAll = await groupsRepository.find()
+    const [getGroupsAll, getGroups] = await Promise.all([
+      groupsRepository.find(),
 
-    // @ts-expect-error
-    const getGroups = await vk.api.groups.getById({ group_ids: Array.from({ length: 500 }, (_, x) => group.groupId + x), fields: ["contacts"] })
+      // @ts-expect-error
+      vk.api.groups.getById({ group_ids: Array.from({ length: 500 }, (_, x) => group.groupId + x), fields: ["contacts"] })
+    ])
 
-    await new Promise(resolve =>
-      resolve(
+    await Promise.all(
+      // @ts-expect-error
+      getGroups.map(async ({ id, contacts, name }) => {
+        if (name === "DELETED") return (group.groupId -= 1)
+
+        group.groupId += 1
+
         // @ts-expect-error
-        getGroups.map(async ({ id, contacts, name }) => {
-          if (name === "DELETED") return (group.groupId -= 1)
+        if (contacts?.length < 1) return
 
-          group.groupId += 1
+        // @ts-expect-error
+        if (!contacts?.filter(x => x.user_id)) return
 
-          // @ts-expect-error
-          if (contacts?.length < 1) return
+        // @ts-expect-error
+        if (getGroupsAll.find(x => x.groupId == id)) return
+        const groups = new VKGroup()
+        groups.groupId = id
+        groups.contacts = contacts.map(x => x.user_id)
 
-          // @ts-expect-error
-          if (!contacts?.filter(x => x.user_id)) return
-
-          // @ts-expect-error
-          if (getGroupsAll.find(x => x.groupId == id)) return
-          const groups = new VKGroup()
-          groups.groupId = id
-          groups.contacts = contacts.map(x => x.user_id)
-
-          await groupsRepository.save(groups)
-        })
-      )
+        await groupsRepository.save(groups)
+      })
     )
 
     await lastIdRepository.save(group)

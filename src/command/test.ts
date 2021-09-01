@@ -53,9 +53,17 @@
 //     }[]
 //   }
 // }
-type Subsequence = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-type Param = `00${Exclude<Subsequence, 0 | 1>}`
-type CodeType = `${Param}${Subsequence | ("A" | "B" | "C" | "D" | "E" | "F")}`
-type UnicodeType<T extends Param, K extends Param = never> = [string, Extract<CodeType, `${T}${string}`>, Extract<CodeType, `${K}${string}`>?][]
+// type Subsequence = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+// type Param = `00${Exclude<Subsequence, 0 | 1>}`
+// type CodeType = `${Param}${Subsequence | ("A" | "B" | "C" | "D" | "E" | "F")}`
+// type UnicodeType<T extends Param, K extends Param = never> = [string, Extract<CodeType, `${T}${string}`>, Extract<CodeType, `${K}${string}`>?][]
 
-const unicode: UnicodeType<"002"> = [["", "0025"]]
+// const unicode: UnicodeType<"002"> = [["", "0025"]]
+
+// const users: Record<"id" | "balance" | "level", number>[] = [
+//   { id: 0, balance: 30300303030, level: 494999 },
+//   { id: 1, balance: 8484848484848, level: 4994949949 }
+// ]
+
+// users.forEach(value => Object.assign(value, { balance: 0, level: 0 } as Omit<UnArray<typeof users>, "id">))
+// console.log(users)

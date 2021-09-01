@@ -124,3 +124,5 @@ type ParseVKStatus = Readonly<{
 }>
 
 type AllowArray<T> = T[] | T
+
+type UnArray<T> = T extends (infer U)[] ? U : never

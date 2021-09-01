@@ -1,4 +1,6 @@
 import { promise as ping } from "ping"
+import { promisify } from "util"
+
 import si from "systeminformation"
 import diskspace from "diskspace"
 import os from "os"
@@ -13,28 +15,30 @@ export const Main: commandTypes = {
   hearConditions: /^(?:main)$/i,
   handler: async ctx => {
     const ms = Date.now()
-    const dataPing = await ping.probe("api.vk.com")
 
-    const { used, total } = await si.mem()
+    const [{ used, total }, { time }, { total: totalDisk, free: freeDisk }, getCpu] = await Promise.all([
+      si.mem(),
+      ping.probe("api.vk.com"),
+      promisify(diskspace.check)("/"),
+      getCPUUsage()
+    ])
 
-    diskspace.check("/", async (_, { total: totalDisk, free: freeDisk }) =>
-      ctx.editDelete(`
+    ctx.editDelete(`
 Информация о сервере:
-📈 | Процесор: ${fixed((await getCPUUsage()) * 100)} %
+📈 | Процесор: ${fixed(getCpu * 100)} %
 ⚙ | Оперативка: ${bytesToSize(used)} из ${bytesToSize(total)} (${fixed((used / total) * 100)} %)
 📡 | Скорость: ${os
-        .cpus()
-        .map(x => `${fixed(x.speed / 1000)} ГГц`)
-        .join(" | ")}
+      .cpus()
+      .map(x => `${fixed(x.speed / 1000)} ГГц`)
+      .join(" | ")}
 ⏳ | Запущен: ${unixStampTime(process.uptime() * 1000)}
 💿 | Disk: ${bytesToSize(+totalDisk - +freeDisk)} из ${bytesToSize(+totalDisk)} (${fixed(((+totalDisk - +freeDisk) / +totalDisk) * 100)} %)
 
 🔨 | Обработка заняла — ${fixed((Date.now() - ctx.createdAt * 1000) / 1000) + " с."} 
 ⚒ | Время отправки — ${fixed((Date.now() - ms) / 1000)} с.
-🏓 | Пинг: ${dataPing.time}ms
+🏓 | Пинг: ${time}ms
 
 💻 | Система: ${os.type()}
 `)
-    )
   }
 }

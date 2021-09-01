@@ -6,12 +6,18 @@ export const baseGroup: commandTypes = {
   handler: async ctx => {
     const getBase = await groupsRepository.find()
     const getBaseSlice = getBase.slice(getBase.length - 20, getBase.length).reverse()
-    // @ts-expect-error
-    const getGroups = await vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"] })
-    const filterGroup = getGroups.filter(x => x.name !== "Частная группа")
 
-    // @ts-expect-error
-    const getUser = await vk.api.users.get({ user_ids: getBaseSlice.flatMap(x => x.contacts), lang: "en" })
+    const [getGroups, getUser, { groupId }] = await Promise.all([
+      // @ts-expect-error
+      vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"] }),
+
+      // @ts-expect-error
+      vk.api.users.get({ user_ids: getBaseSlice.flatMap(x => x.contacts), lang: "en" }),
+
+      lastIdRepository.findOne(1)
+    ])
+
+    const filterGroup = getGroups.filter(x => x.name !== "Частная группа")
 
     ctx.editDelete(`Последние ${filterGroup.length} ${Utils.declOfNum(filterGroup.length, ["группа", "группы", "групп"])} занесенных в базу:
 ${filterGroup
@@ -27,8 +33,8 @@ ${filterGroup
   )
   .join("\n")}
 
-Общее количество групп в базе: ${getBase.length}
-Последний ID: ${(await lastIdRepository.findOne(1)).groupId}
+Общее количество групп в базе: ${Utils.separator(getBase.length)}
+Последний ID: ${groupId}
 Частных групп: ${getGroups.length - filterGroup.length}
     `)
   }
