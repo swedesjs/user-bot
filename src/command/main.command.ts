@@ -1,10 +1,9 @@
 import { promise as ping } from "ping"
 import { promisify } from "util"
+import { type, cpus } from "os"
 
 import si from "systeminformation"
 import diskspace from "diskspace"
-import os from "os"
-
 import { getCPUUsage, unixStampTime, Utils } from "../utils"
 
 const { bytesToSize } = Utils
@@ -27,8 +26,7 @@ export const Main: commandTypes = {
 Информация о сервере:
 📈 | Процесор: ${fixed(getCpu * 100)} %
 ⚙ | Оперативка: ${bytesToSize(used)} из ${bytesToSize(total)} (${fixed((used / total) * 100)} %)
-📡 | Скорость: ${os
-      .cpus()
+📡 | Скорость: ${cpus()
       .map(x => `${fixed(x.speed / 1000)} ГГц`)
       .join(" | ")}
 ⏳ | Запущен: ${unixStampTime(process.uptime() * 1000)}
@@ -38,7 +36,7 @@ export const Main: commandTypes = {
 ⚒ | Время отправки — ${fixed((Date.now() - ms) / 1000)} с.
 🏓 | Пинг: ${time}ms
 
-💻 | Система: ${os.type()}
+💻 | Система: ${type()}
 `)
   }
 }

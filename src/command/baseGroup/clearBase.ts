@@ -1,5 +1,4 @@
-import { createCollectIterator } from "vk-io"
-import { groupsRepository, vk } from "../.."
+import { groupsRepository } from "../.."
 
 export const clearBase: commandTypes = {
   hearConditions: /^(?:очистить)$/i,

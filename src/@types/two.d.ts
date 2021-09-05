@@ -14,10 +14,6 @@ declare global {
       member_id: number
       role: "member" | "admin"
     }
-
-    export interface GroupsGetByIdParams {
-      group_ids?: AllowArray<string> | AllowArray<number>
-    }
   }
 
   declare module "vk-io/lib/api/schemas/responses" {

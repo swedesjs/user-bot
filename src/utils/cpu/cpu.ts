@@ -7,11 +7,11 @@ const getCPUInfo = () => {
   let idle = 0
 
   const total = cpus
-    .map<number[]>(({ times }, index) => {
+    .map(({ times }, index) => {
       // @ts-expect-error
       if (!cpus.hasOwnProperty(index)) return
       idle += times.idle
-      return Object.keys(times).map(x => times[x])
+      return Object.values(times)
     })
     .flatMap(x => x)
     .reduce((a, b) => a + b)

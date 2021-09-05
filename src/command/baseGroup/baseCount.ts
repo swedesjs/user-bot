@@ -10,9 +10,9 @@ export const baseCount: commandTypes = {
     const [[userId, groupsIds]] = getGroups
       .reduce((acc: [number, number[]][], { groupId, contacts }) => {
         contacts.forEach(id => {
-          const [, get] = acc.find(([x]) => x === +id)
+          const get = acc.find(([x]) => x === +id)
 
-          return get ? get.push(groupId) : acc.push([+id, [groupId]])
+          return get ? get[1].push(groupId) : acc.push([+id, [groupId]])
         })
         return acc
       }, [])
@@ -20,7 +20,6 @@ export const baseCount: commandTypes = {
 
     const [[{ id, first_name, last_name }], getGroupsToApi] = await Promise.all([
       vk.api.users.get({ user_id: userId, lang: "en" }),
-      // @ts-expect-error
       vk.api.groups.getById({ group_ids: groupsIds, fields: ["members_count"] })
     ])
 
@@ -30,7 +29,7 @@ export const baseCount: commandTypes = {
     ctx.editDelete(
       `Самое большое количество групп имеет - @id${id} (${first_name} ${last_name}) - ${groupsIds.length}
 
-    ${sliceFilter.map((x, index) => `${index + 1}. @club${x.id} (${x.name}) - (🗣 ${x.members_count || 0})`).join("\n")}
+    ${sliceFilter.map(({ id, name, members_count = 0 }, index) => `${index + 1}. @club${id} (${name}) - (🗣 ${members_count})`).join("\n")}
 
     Осталось: ${filterGroup.length - sliceFilter.length}
     Частных групп: ${getGroupsToApi.length - filterGroup.length}

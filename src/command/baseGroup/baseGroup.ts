@@ -8,7 +8,6 @@ export const baseGroup: commandTypes = {
     const getBaseSlice = getBase.slice(getBase.length - 20, getBase.length).reverse()
 
     const [getGroups, getUser, { groupId }] = await Promise.all([
-      // @ts-expect-error
       vk.api.groups.getById({ group_ids: getBaseSlice.map(x => x.groupId), fields: ["members_count"] }),
 
       // @ts-expect-error

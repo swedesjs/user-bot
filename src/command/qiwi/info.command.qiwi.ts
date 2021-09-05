@@ -1,5 +1,6 @@
 import { Personal } from "qiwi-sdk"
 import dotenv from "dotenv"
+import { Utils } from "../../utils"
 
 dotenv.config()
 
@@ -18,7 +19,7 @@ export const QIWIINFO: commandTypes = {
 
     ctx.editDelete(`Инфа о киви:
 Статус: ${identificationLevel}
-Баланс: ${balance.amount}₽
+Баланс: ${Utils.separator(balance.amount)}₽
 `)
   }
 }

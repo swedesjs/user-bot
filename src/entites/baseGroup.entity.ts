@@ -10,6 +10,12 @@ export class VKGroup {
 }
 
 @Entity()
+export class Blacklist {
+  @PrimaryColumn()
+  id: number
+}
+
+@Entity()
 export class LastId {
   @PrimaryColumn()
   id: number

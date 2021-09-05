@@ -11,17 +11,15 @@ export const Stickers: commandTypes = {
 
   handler: async ctx => {
     const userId = ctx.replyMessage?.senderId || ctx.forwards[0]?.senderId || (await resolveResource({ api: vk.api, resource: ctx.$match[1] })).id
-    const ms = +new Date()
+    const ms = Date.now()
 
-    const [info] = await vk.api.users.get({
-      user_id: userId,
-      name_case: "gen"
-    })
-
-    const userStickers = await VKUtils.getUserStickerPacks(process.env.VKME_TOKEN, userId)
+    const [[{ first_name, last_name }], userStickers] = await Promise.all([
+      vk.api.users.get({ user_id: userId, name_case: "gen" }),
+      VKUtils.getUserStickerPacks(process.env.VKME_TOKEN, userId)
+    ])
 
     ctx.editDelete(
-      `У @id${userId} (${info.first_name} ${info.last_name}) ${userStickers.stats.packs.paid}/${
+      `У @id${userId} (${first_name} ${last_name}) ${userStickers.stats.packs.paid}/${
         userStickers.stats.packs.count
       } платных наборов стикеров (${Utils.separator(userStickers.totalPrice, ".")} ${Utils.declOfNum(userStickers.totalPrice, [
         "голос",
@@ -34,7 +32,7 @@ export const Stickers: commandTypes = {
               .filter(x => !x.isFree)
               .map(x => x.title)
               .join(", ")
-      }\n\nЗадержка: ${unixStampTime(+new Date() - ms)}`,
+      }\n\nЗадержка: ${unixStampTime(Date.now() - ms)}`,
       60000,
       {
         disable_mentions: true,

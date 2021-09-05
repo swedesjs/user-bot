@@ -92,16 +92,16 @@ declare global {
   }
 
   declare module "@vk-io/hear" {}
-  declare module "vk-io-question" {}
+  declare module "middleware-io" {}
 
   declare global {
     import { MessageContext } from "vk-io"
-    import { HearManager, HearConditions } from "@vk-io/hear"
-    import { IQuestionMessageContext } from "vk-io-question"
+    import { HearConditions } from "@vk-io/hear"
+    import { Middleware } from "middleware-io"
 
     type commandTypes = Readonly<{
       hearConditions: HearConditions<MessageContext>
-      handler: (ctx: MessageContext, next?: Parameters<Parameters<HearManager<MessageContext>["hear"]>[1]>[1]) => void
+      handler: Middleware<MessageContext>
     }>
   }
 }
@@ -126,3 +126,4 @@ type ParseVKStatus = Readonly<{
 type AllowArray<T> = T[] | T
 
 type UnArray<T> = T extends (infer U)[] ? U : never
+type UnPromise<T> = T extends PromiseLike<infer U> ? U : never

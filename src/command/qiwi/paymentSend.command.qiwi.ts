@@ -4,7 +4,7 @@ export const paymentSend: commandTypes = {
   hearConditions: /^(?:перевод)\s([0-9]+)\s([0-9]+)$/i,
   handler: async ctx => {
     try {
-      const info = await qiwi.pay(99, ctx.$match[1], ctx.$match[2] as any)
+      await qiwi.pay(99, ctx.$match[1], ctx.$match[2] as any)
 
       ctx.editDelete(`Платеж успешен`)
     } catch (message) {

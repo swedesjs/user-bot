@@ -67,3 +67,40 @@
 
 // users.forEach(value => Object.assign(value, { balance: 0, level: 0 } as Omit<UnArray<typeof users>, "id">))
 // console.log(users)
+export const unixStampTime2 = (stamp: number) => {
+  stamp *= 1e6
+
+  const nanosec = stamp % 1e6
+  stamp = (stamp - nanosec) / 1e6
+
+  const ms = stamp % 1000
+  stamp = (stamp - ms) / 1000
+
+  const second = stamp % 60
+  stamp = (stamp - second) / 60
+
+  const minutes = stamp % 60
+  stamp = (stamp - minutes) / 60
+
+  const house = stamp % 24
+  stamp = (stamp - house) / 24
+
+  const day = stamp % 31
+  stamp = (stamp - day) / 31
+
+  const mes = stamp % 12
+  const year = (stamp - mes) / 12
+
+  let text = ``
+
+  if (year > 0) text += Math.floor(year) + " г. "
+  if (mes > 0) text += Math.floor(mes) + " мес. "
+  if (day > 0) text += Math.floor(day) + " д. "
+  if (house > 0) text += Math.floor(house) + " ч. "
+  if (minutes > 0) text += Math.floor(minutes) + " м. "
+  if (second > 0) text += Math.floor(second) + " с. "
+  if (ms > 0) text += Math.floor(ms) + " миллсек."
+
+  return text
+}
+console.log(unixStampTime2(60000 * 60 * 24 * 31 * 12))

@@ -1,6 +1,6 @@
 import { exec } from "child_process"
-import path from "path"
 import { promisify } from "util"
+import path from "path"
 import fs from "fs"
 
 const compliteOptions: CompliteOptions = {
@@ -16,10 +16,10 @@ const compliteOptions: CompliteOptions = {
 }
 
 export const tsEval = async (option: string) => {
-  const file = path.join(__dirname + "/../../tsEvalProcess.ts")
+  const file = path.join(__dirname, "/../../tsEvalProcess.ts")
   const replaceJS = file.replace(".ts", ".js")
 
-  const deleteFile = () => [file, replaceJS].forEach(x => fs.unlinkSync(x))
+  const deleteFile = () => [file, replaceJS].forEach(value => fs.unlinkSync(value))
 
   await promisify(fs.writeFile)(file, option)
 

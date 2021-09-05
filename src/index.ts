@@ -1,9 +1,9 @@
-import { Repository, getRepository, createConnection } from "typeorm"
+import { blacklistRepository, groupsRepository, lastIdRepository } from "./connect"
 import { IMessageContextSendOptions, MessageContext, VK } from "vk-io"
 import { HearManager } from "@vk-io/hear"
 import { config } from "dotenv"
 
-import { LastId, VKGroup } from "./entites"
+import { VKGroup } from "./entites"
 import { delay } from "./utils"
 
 import * as command from "./command"
@@ -42,25 +42,15 @@ Object.values(command).forEach(({ hearConditions, handler }) => hearManager.hear
 
 vk.updates.start()
 
-export let groupsRepository: Repository<VKGroup>
-export let lastIdRepository: Repository<LastId>
-;(async () => {
-  try {
-    await (await createConnection()).connect()
-  } catch {}
-
-  groupsRepository = getRepository(VKGroup)
-  lastIdRepository = getRepository(LastId)
-})()
-
 setInterval(async () => {
   const group = await lastIdRepository.findOne(1)
   try {
-    const [getGroupsAll, getGroups] = await Promise.all([
+    const [getGroupsAll, getGroups, getUserBlacklist] = await Promise.all([
       groupsRepository.find(),
 
-      // @ts-expect-error
-      vk.api.groups.getById({ group_ids: Array.from({ length: 500 }, (_, x) => group.groupId + x), fields: ["contacts"] })
+      vk.api.groups.getById({ group_ids: Array.from({ length: 500 }, (_, x) => group.groupId + x), fields: ["contacts"] }),
+
+      blacklistRepository.find()
     ])
 
     await Promise.all(
@@ -71,23 +61,29 @@ setInterval(async () => {
         group.groupId += 1
 
         // @ts-expect-error
-        if (contacts?.length < 1) return
+        if (!contacts?.length) return
 
         // @ts-expect-error
         if (!contacts?.filter(x => x.user_id)) return
 
         // @ts-expect-error
+        if (contacts.find(x => getUserBlacklist.find(u => u.id === x.user_id))) return
+
+        // @ts-expect-error
         if (getGroupsAll.find(x => x.groupId == id)) return
+
         const groups = new VKGroup()
+
         groups.groupId = id
         groups.contacts = contacts.map(x => x.user_id)
 
         await groupsRepository.save(groups)
       })
     )
-
-    await lastIdRepository.save(group)
   } catch (err) {
     console.log(err)
   }
+  await lastIdRepository.save(group)
 }, 10000)
+
+export { groupsRepository, lastIdRepository, blacklistRepository }
